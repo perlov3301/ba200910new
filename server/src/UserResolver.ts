@@ -5,6 +5,7 @@ import { User } from "./entity/User";
 import { MyContext } from "./MyContext";
 import { createAccessToken, createRefreshToken } from "./auth";
 import { isAuth } from "./isAuth";
+import { sendRefreshToken } from "./sendRefrehsToken";
 
 @ObjectType()
 class LoginResponse {
@@ -55,9 +56,8 @@ export class UserResolver {
     const valid = await compare(password, user.password);
     if (!valid) { throw new Error("bad password") }
     // login successful
-    res.cookie("jid", createRefreshToken(user),
-      { httpOnly: true }
-      );
+   
+      sendRefreshToken(res, createRefreshToken(user));
     return {
       accessToken: createAccessToken(user)
     }; 

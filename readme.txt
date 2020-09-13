@@ -1,5 +1,6 @@
 ## play slow
 osascript -e 'tell application "QuickTime Player" to set rate of document 1 to 0.62'
+osascript -e 'tell application "QuickTime Player" to set rate of document 1 to 0.62';
 #git init
 git add README.md
 git commit -m "first commit"

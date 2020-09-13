@@ -8,7 +8,8 @@ import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import { verify } from "jsonwebtoken";
 import { User } from "./entity/User";
-import { createAccessToken } from "./auth";
+import { createAccessToken, createRefreshToken } from "./auth";
+import { sendRefreshToken } from "./sendRefrehsToken";
 
 (async () => {
   const app = express();
@@ -31,6 +32,8 @@ import { createAccessToken } from "./auth";
       // token is valed and we can send back an access token
       const user = await User.findOne({id: payload.userId});
       if (!user) { return res.send({ ok: false, accessToken: "" }); }
+
+      sendRefreshToken(res, createRefreshToken(user));
 
       return res.send({ ok: true, accessToken: createAccessToken(user) });
   });
