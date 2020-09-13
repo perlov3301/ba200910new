@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "reflect-metadata";
 import express from "express";
 import { ApolloServer }   from "apollo-server-express";
@@ -12,10 +13,14 @@ import { createConnection } from "typeorm";
   app.get("/html5", function(_req, res) { res.sendFile(path.join(__dirname, "public", "a.html")); });
   app.get("/", (_req, res) => res.send("hello"));
 
+  console.log(process.env.ACCESS_TOKEN_SECRET);
+  console.log(process.env.REFRESH_TOKEN_SECRET);
+
   await createConnection();
   
   const apolloServer = new ApolloServer({ 
-    schema: await buildSchema({ resolvers: [UserResolver] }) 
+    schema: await buildSchema({ resolvers: [UserResolver] }),
+    context: ({ req, res }) => ({ req, res })
   });
   apolloServer.applyMiddleware({ app });
   app.listen(4000, () => { console.log("express server started"); });
