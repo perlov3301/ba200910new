@@ -29,9 +29,12 @@ import { sendRefreshToken } from "./sendRefrehsToken";
     } catch (err) { 
       console.log(err);
       return res.send({ ok: false, accessToken: "" }); }
-      // token is valed and we can send back an access token
+      // token is valוd and we can send back an access token
       const user = await User.findOne({id: payload.userId});
-      if (!user) { return res.send({ ok: false, accessToken: "" }); }
+      if (!user) { 
+        return res.send({ ok: false, accessToken: "" }); }
+      if (user.tokenVersion !== payload.tokenVersion) {
+        return res.send({ ok: false, accessToken: "" }); } 
 
       sendRefreshToken(res, createRefreshToken(user));
 

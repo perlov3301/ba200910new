@@ -13,5 +13,7 @@ export class User extends BaseEntity {
 // we don't want exposure password
     @Column("text")
     password: string;
-
+   
+    @Column("int", { default: 0 })
+    tokenVersion: number;
 }

@@ -1,11 +1,12 @@
 import { Resolver, Query, Mutation, Arg, ObjectType, Field, 
-  Ctx,  UseMiddleware} from "type-graphql";
+  Ctx,  UseMiddleware, Int} from "type-graphql";
 import { hash, compare } from "bcryptjs";
 import { User } from "./entity/User";
 import { MyContext } from "./MyContext";
 import { createAccessToken, createRefreshToken } from "./auth";
 import { isAuth } from "./isAuth";
 import { sendRefreshToken } from "./sendRefrehsToken";
+import { getConnection } from "typeorm";
 
 @ObjectType()
 class LoginResponse {
@@ -28,6 +29,14 @@ export class UserResolver {
 
   @Query(() => [User])
   users() {  return User.find() }
+
+  @Mutation(() => Boolean)
+  async revokeRefreshTokensForUser(@Arg("userId", () => Int) userId: number) {
+    await getConnection()
+      .getRepository(User)
+      .increment({ id: userId }, "tokenVersion", 1);
+    return true;
+  }
 
   @Mutation(() => Boolean)
   async register(
@@ -56,15 +65,11 @@ export class UserResolver {
     const valid = await compare(password, user.password);
     if (!valid) { throw new Error("bad password") }
     // login successful
-   
-      sendRefreshToken(res, createRefreshToken(user));
-    return {
-      accessToken: createAccessToken(user)
-    }; 
+    sendRefreshToken(res, createRefreshToken(user));
+    return { accessToken: createAccessToken(user) }; 
   }
 
 }
-
 
 // befor typegraphql: const apolloServer = new ApolloServer({
 //   typeDefs: `type Query { hello: String! }`,

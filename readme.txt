@@ -17,4 +17,12 @@ git push -u origin master
   git push -u origin master
 #psql: %source .bash_profile =>psql=>\l=>\c jwt-auth postgres=>\d=>SELECT * FROM users;
 #graphql get cookie: settings=> "request.credentials": "include",
+# to keep the version of a token and we can increment
+this version and that will invalidate all the old tokens:
+add new field to entity/User.ts=> whenever we create refreshToken we pass current version
+=> auth.ts:createrefreshtoken => userresolver.ts:revoke the token for somebody 
+(we expose that for testing purposes becase it will be the simplest way: actually we don't make
+mutation like this but instead we do create function that we can call when somebody forget password
+or we can internally use this owns account when they gets hacked)
+
 
