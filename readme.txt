@@ -24,5 +24,6 @@ add new field to entity/User.ts=> whenever we create refreshToken we pass curren
 (we expose that for testing purposes becase it will be the simplest way: actually we don't make
 mutation like this but instead we do create function that we can call when somebody forget password
 or we can internally use this owns account when they gets hacked)
+#     "@graphql-codegen/typescript-react-apollo": "1.17.8" => 2.06
 
 
