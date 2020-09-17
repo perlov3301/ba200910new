@@ -6,7 +6,7 @@ import './index.css';
 import Routes from './Routes';
 
 const client = new ApolloClient({ 
-  uri: "http://localhost:4000/graphql"
+  uri: "http://localhost:4000/graphql",
  });
 
 ReactDOM.render( // within ApolloProvider.ts => client:... | DefaultClient<TCache>;
