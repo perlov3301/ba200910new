@@ -7,6 +7,7 @@ import { UserResolver } from "./UserResolver";
 import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import { verify } from "jsonwebtoken";
+import cors from "cors";
 import { User } from "./entity/User";
 import { createAccessToken, createRefreshToken } from "./auth";
 import { sendRefreshToken } from "./sendRefrehsToken";
@@ -15,10 +16,15 @@ import { sendRefreshToken } from "./sendRefrehsToken";
   const app = express();
 
   const path = require("path");
-  app.use(express.static(path.join(__dirname, "public")));
-  app.get("/html5", function(_req, res) { res.sendFile(path.join(__dirname, "public", "a.html")); });
-
   app.use(cookieParser()); // middleWare before all
+  app.use(express.static(path.join(__dirname, "public")));
+  app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  }))
+
+
+  app.get("/html5", function(_req, res) { res.sendFile(path.join(__dirname, "public", "a.html")); });
   app.get("/", (_req, res) => res.send("hello"));
   app.post("/refresh_token", async (req, res) => {
     const token = req.cookies.jid;
@@ -47,7 +53,7 @@ import { sendRefreshToken } from "./sendRefrehsToken";
     schema: await buildSchema({ resolvers: [UserResolver] }),
     context: ({ req, res }) => ({ req, res })
   });
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
   app.listen(4000, () => { console.log("express server is started"); });
 })();
 

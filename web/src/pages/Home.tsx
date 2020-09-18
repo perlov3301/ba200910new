@@ -7,7 +7,7 @@ interface Props {
 
 export const Home: React.FC<Props> = () => {
   const {data, } = useUsersQuery({fetchPolicy: 'network-only'});
-  if (!data) { return <div>loading...</div>; }
+  if (!data) { return <fieldset><legend>home: users</legend>loading...</fieldset>; }
         return (
             <fieldset><legend>home: users</legend>
               <ul>
