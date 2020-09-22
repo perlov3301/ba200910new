@@ -10,7 +10,7 @@ export class User extends BaseEntity {
     @Field()
     @Column("text")
     email: string;
-// we don't want exposure password
+// we don't want expose password
     @Column("text")
     password: string;
    

@@ -10,10 +10,9 @@ export const Bye: React.FC<Props> = () => {
     if (loading) { return ( <fieldset><legend>Bye page</legend>loadign...</fieldset>); }
     if (error) { 
         console.log(error);
-        return ( <fieldset><legend>Bye page</legend>error</fieldset> );
+        return ( <fieldset><legend>Bye page</legend>
+          error: {error.message}</fieldset> );
      }
      if (!data) { return ( <fieldset><legend>Bye page</legend>no data</fieldset>); }
-        return (
-        <fieldset><legend>Bye page</legend>{data.bye}</fieldset>
-        );
+      return ( <fieldset><legend>Bye page</legend>{data.bye}</fieldset> );
 }

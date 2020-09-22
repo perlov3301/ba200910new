@@ -28,7 +28,7 @@ export class UserResolver {
     return `your user id is: ${payload!.userId}` }
 
   @Query(() => [User])
-  users() {  return User.find() }
+  users() {  return User.find(); }
 
   @Mutation(() => Boolean)
   async revokeRefreshTokensForUser(@Arg("userId", () => Int) userId: number) {

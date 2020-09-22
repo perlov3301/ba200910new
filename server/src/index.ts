@@ -11,11 +11,13 @@ import cors from "cors";
 import { User } from "./entity/User";
 import { createAccessToken, createRefreshToken } from "./auth";
 import { sendRefreshToken } from "./sendRefrehsToken";
+import { MyResolver } from "./MyResolver";
 
 (async () => {
   const app = express();
-
+  
   const path = require("path");
+
   app.use(cookieParser()); // middleWare before all
   app.use(express.static(path.join(__dirname, "public")));
   app.use(cors({
@@ -27,18 +29,17 @@ import { sendRefreshToken } from "./sendRefrehsToken";
   app.get("/html5", function(_req, res) { res.sendFile(path.join(__dirname, "public", "a.html")); });
   app.get("/", (_req, res) => res.send("hello"));
   app.post("/refresh_token", async (req, res) => {
-    const token = req.cookies.jid;
+    const token = req.cookies.jid; // refresh token
+    // console.log(`token: ${token}`);
     if (!token) { return res.send({ ok: false, accessToken: "" }); }
     let payload: any = null;;
     try {
       payload = verify(token, process.env.REFRESH_TOKEN_SECRET!);
-    } catch (err) { 
-      console.log(err);
+    } catch (err) {  console.log(err);
       return res.send({ ok: false, accessToken: "" }); }
       // token is valוd and we can send back an access token
       const user = await User.findOne({id: payload.userId});
-      if (!user) { 
-        return res.send({ ok: false, accessToken: "" }); }
+      if (!user) { return res.send({ ok: false, accessToken: "" }); }
       if (user.tokenVersion !== payload.tokenVersion) {
         return res.send({ ok: false, accessToken: "" }); } 
 
@@ -50,7 +51,7 @@ import { sendRefreshToken } from "./sendRefrehsToken";
   await createConnection();
   
   const apolloServer = new ApolloServer({ 
-    schema: await buildSchema({ resolvers: [UserResolver] }),
+    schema: await buildSchema({ resolvers: [UserResolver, MyResolver] }),
     context: ({ req, res }) => ({ req, res })
   });
   apolloServer.applyMiddleware({ app, cors: false });

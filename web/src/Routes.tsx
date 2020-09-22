@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { Bye } from './pages/Bye';
+import { Hello } from './pages/Hello';
 
 const Routes: React.FC = () => {
    return (
@@ -22,12 +23,16 @@ const Routes: React.FC = () => {
           <div>
             <Link to="/bye"><strong><b>Bye</b></strong></Link>
           </div>
+          <div>
+            <Link to="/hello"><strong><b>myHello</b></strong></Link>
+          </div>
         </header>
        <Switch>
          <Route exact path="/" component={Home}  />
          <Route exact path="/register" component={Register}  />
          <Route exact path="/login" component={Login}  />
          <Route exact path="/bye" component={Bye}  />
+         <Route exact path="/hello" component = {Hello} />
        </Switch>
      </div>
        
