@@ -6,7 +6,10 @@ interface Props {
 }
 
 export const Bye: React.FC<Props> = () => {
-    const {data, loading, error} = useByeQuery();
+    // const {data, loading, error} = useByeQuery();
+    const {data, loading, error} = useByeQuery({
+      fetchPolicy: "network-only"
+    });
     if (loading) { return ( <fieldset><legend>Bye page</legend>loadign...</fieldset>); }
     if (error) { 
         console.log(error);

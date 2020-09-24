@@ -12,7 +12,7 @@ export const App: React.FC<Props> = () => {
            method: "Post",
            credentials: "include" }
        ).then(async (x) => {
-          
+// seemless refresh will be here
           const { accessToken } = await x.json();
           setAccessToken(accessToken);
           // console.log(data);

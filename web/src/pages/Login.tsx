@@ -29,12 +29,14 @@ export const Login: React.FC<RouteComponentProps> = ({history}) => {
                <div>
                  <input value={email}
                    placeholder="email" 
+                   required
                    onChange={e => { setEmail(e.target.value); }} />
                </div>
                <div>
                  <input type="password"
                    value={password} 
                    placeholder="password" 
+                   required
                    onChange={e => { setPassword(e.target.value); }} />
                </div>
                <button type="submit">login</button>

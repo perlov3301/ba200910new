@@ -25,5 +25,7 @@ add new field to entity/User.ts=> whenever we create refreshToken we pass curren
 mutation like this but instead we do create function that we can call when somebody forget password
 or we can internally use this owns account when they gets hacked)
 #     "@graphql-codegen/typescript-react-apollo": "1.17.8" => 2.06
+# apollo boost migration max apollo client 2.5
+  https://www.apollographql.com/docs/react/v2.5/advanced/boost-migration/#advanced-migration
 
 

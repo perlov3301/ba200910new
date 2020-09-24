@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import './index.css';
-// import Routes from './Routes';
 import { getAccessToken } from './accessToken';
 import { App } from './App';
 
