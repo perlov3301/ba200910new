@@ -1,0 +1,34 @@
+new TokenRefreshLink({
+    isTokenValidOrUndefined: () => !isTokenExpired() || typeof getAccessToken() !== 'string',
+    fetchAccessToken: () => {
+      return fetch(getEndpoint('getAccessTokenPath'), {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          'refresh-token': getRefreshToken()
+        }
+      });
+    },
+    handleFetch: accessToken => {
+      const accessTokenDecrypted = jwtDecode(accessToken);
+      setAccessToken(accessToken);
+      setExpiresIn(parseExp(accessTokenDecrypted.exp).toString());
+    },
+    handleResponse: (operation, accessTokenField) => response => {
+      // here you can parse response, handle errors, prepare returned token to
+      // further operations
+
+      // returned object should be like this:
+      // {
+      //    access_token: 'token string here'
+      // }
+    },
+    handleError: err => {
+    	// full control over handling token fetch Error
+    	console.warn('Your refresh token is invalid. Try to relogin');
+    	console.error(err);
+
+    	// your custom action here
+    	user.logout();
+    }
+  })
