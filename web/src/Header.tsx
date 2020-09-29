@@ -5,7 +5,7 @@ import { useMeQuery } from "./generated/graphql";
 interface Props {}
 
 export const Header: React.FC<Props> = () => { // for using cach from apollo remove "network-only"
-// { fetchPolicy: "network-only" } asdf
+// { fetchPolicy: "network-only" } asdf  asdf
     const { data, loading } = useMeQuery({ fetchPolicy: "network-only" });
     let body: any = null;
     if (loading) { body = null; } 
