@@ -37,10 +37,9 @@ export class UserResolver {
   @Query(() => User, {nullable: true}) // or
   me( @Ctx() context: MyContext ) {  
     const authorization = context.req.headers["authorization"];
-    if (!authorization || !authorization[1] || authorization[1]==undefined) {
-         return null; }
+    if (!authorization) { return null; }
     try {
-        const token = authorization!.split(" ")[1];
+        const token = authorization.split(" ")[1];
         // console.log(process.env.ACCESS_TOKEN_SECRET!);
         const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
         return User.findOne(payload.userId);
