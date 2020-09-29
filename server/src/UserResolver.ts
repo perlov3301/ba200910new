@@ -7,11 +7,15 @@ import { createAccessToken, createRefreshToken } from "./auth";
 import { isAuth } from "./isAuth";
 import { sendRefreshToken } from "./sendRefrehsToken";
 import { getConnection } from "typeorm";
+import { verify } from "jsonwebtoken";
 
 @ObjectType()
 class LoginResponse {
   @Field()
-  accessToken: string
+  accessToken: string;
+  @Field(() => User)
+  user: User;
+
 }
 
 @Resolver()
@@ -29,6 +33,22 @@ export class UserResolver {
 
   @Query(() => [User])
   users() {  return User.find(); }
+  
+  @Query(() => User, {nullable: true}) // or
+  me( @Ctx() context: MyContext ) {  
+    const authorization = context.req.headers["authorization"];
+    if (!authorization || !authorization[1] || authorization[1]==undefined) {
+         return null; }
+    try {
+        const token = authorization!.split(" ")[1];
+        // console.log(process.env.ACCESS_TOKEN_SECRET!);
+        const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+        return User.findOne(payload.userId);
+    } catch (err) { 
+        console.log(err); 
+        return null;
+    }
+  }
 
   @Mutation(() => Boolean)
   async revokeRefreshTokensForUser(@Arg("userId", () => Int) userId: number) {
@@ -66,7 +86,10 @@ export class UserResolver {
     if (!valid) { throw new Error("bad password") }
     // login successful
     sendRefreshToken(res, createRefreshToken(user));
-    return { accessToken: createAccessToken(user) }; 
+    return { 
+      accessToken: createAccessToken(user), 
+      user 
+    }; 
   }
 
 }
