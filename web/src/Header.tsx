@@ -31,11 +31,20 @@ export const Header: React.FC<Props> = () => {
             <Link to="/bye"><strong><b>Bye</b></strong></Link>
           </div>
           <div>
-            <button  onClick={async () => {
+            {
+              !loading && data && data.me ? (
+                <button  onClick={async () => {
+                  await logout();
+                  setAccessToken("");
+                  await client!.resetStore(); // clean cache
+                }} >logout</button>
+              ) : null
+            } 
+            {/* <button  onClick={async () => {
               await logout();
               setAccessToken("");
               await client!.resetStore(); // clean cache
-            }} >logout</button>
+            }} >logout</button> */}
           </div>
           {/* <div>
             <Link to="/hello"><strong><b>myHello</b></strong></Link>
