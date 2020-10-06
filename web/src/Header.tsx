@@ -1,12 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { useMeQuery } from "./generated/graphql";
+import { setAccessToken } from './accessToken';
+import { useLogoutMutation, useMeQuery } from "./generated/graphql";
 
 interface Props {}
 
-export const Header: React.FC<Props> = () => { // for using cach from apollo remove "network-only"
-// { fetchPolicy: "network-only" } asdf  asdf
-    const { data, loading } = useMeQuery({ fetchPolicy: "network-only" });
+export const Header: React.FC<Props> = () => { 
+  // for using cache from apollo remove "network-only"
+// { fetchPolicy: "network-only" } 
+ //   const { data, loading } = useMeQuery({ fetchPolicy: "network-only" });
+    const { data, loading } = useMeQuery();
+    const [logout, {client}] = useLogoutMutation();
     let body: any = null;
     if (loading) { body = null; } 
     else if (data && data.me) { body = <div>you are logged in as: {data.me.email}</div>; } 
@@ -27,8 +31,15 @@ export const Header: React.FC<Props> = () => { // for using cach from apollo rem
             <Link to="/bye"><strong><b>Bye</b></strong></Link>
           </div>
           <div>
-            <Link to="/hello"><strong><b>myHello</b></strong></Link>
+            <button  onClick={async () => {
+              await logout();
+              setAccessToken("");
+              await client!.resetStore(); // clean cache
+            }} >logout</button>
           </div>
+          {/* <div>
+            <Link to="/hello"><strong><b>myHello</b></strong></Link>
+          </div> */}
           { body }
         </header>
           //  </fieldset>
