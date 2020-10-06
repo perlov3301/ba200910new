@@ -36,7 +36,7 @@ export const Header: React.FC<Props> = () => {
                 <button  onClick={async () => {
                   await logout();
                   setAccessToken("");
-                  await client!.resetStore(); // clean cache
+                  await client!.resetStore(); // clean cache coolie
                 }} >logout</button>
               ) : null
             } 

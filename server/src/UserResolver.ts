@@ -52,7 +52,8 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async logout(@Ctx() { res }: MyContext) {
     sendRefreshToken(res, "");
-    // res.clearCookie; another option
+    // another option
+    // res.clearCookie; 
     return true;
   }
 
@@ -90,6 +91,7 @@ export class UserResolver {
     // user.password is hashed
     const valid = await compare(password, user.password);
     if (!valid) { throw new Error("bad password") }
+
     // login successful
     sendRefreshToken(res, createRefreshToken(user));
     return { 

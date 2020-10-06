@@ -25,3 +25,9 @@ input {
   font-weight: 500;
   width: 30rem;
 }
+header {
+  border: 1px solid blue;
+  border-radius: 0.5rem;
+  width: 96%;
+  margin: 10px auto 10px auto;
+}
