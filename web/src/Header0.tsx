@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { setAccessToken } from './accessToken';
 import { useLogoutMutation, useMeQuery } from "./generated/graphql";
+import "./nav/nav.css" ;;
 
 interface Props {}
 
@@ -11,46 +12,79 @@ export const Header: React.FC<Props> = () => {
  //   const { data, loading } = useMeQuery({ fetchPolicy: "network-only" });
     const { data, loading } = useMeQuery();
     const [logout, {client}] = useLogoutMutation();
+   // const toggleButton = document.getElementsByClassName('toggle-button')[0];
+        const navbarLinks = document.getElementsByClassName('navbar-links')[0];
+        const liarray = document.getElementsByClassName('navbarli');
+        // "home" is programaticaly clicked but after login=>home there two clicked
+        // const homeli = document.getElementById("homeli");
+        // if (homeli) {
+        //   homeli.classList.add('bgcolor');
+        // } else { console.log("homeli is null "); }
+        const messagebody = document.getElementsByClassName('messagebody')[0];
+        for (let i = 0; i < liarray.length; i++) {
+          liarray[i].addEventListener('click', function (e) {
+              // e.preventDefault();
+              liarray[i].classList.add('bgcolor');
+              for (let j = 0; j < liarray.length; j++) {
+                  if (j !== i) {
+                      liarray[j].classList.remove('bgcolor');
+                  }
+              }
+          });
+      }
+   
     let body: any = null;
     if (loading) { body = null; } 
     else if (data && data.me) { body = <div>you are logged in as: {data.me.email}</div>; } 
          else { body =  <div>not logged in</div>; }
     return (
-          //  <fieldset><legend>Header page</legend>
         <header>header page
-          <div>
-            <Link to="/"><strong><b>Home</b></strong></Link>
+          <nav className="navbar">
+          <div className="brand-title">React&Postgres&JWT
           </div>
-          <div>
-            <Link to="/register"><strong>register</strong></Link>
+          <button onClick={() => {navbarLinks.classList.toggle('active1');}} 
+            className="toggle-button">
+		      	<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		      	<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      		<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      	</button>
+          <div className="navbar-links">
+          <ul>
+            <li  className="navbarli" id="homeli">
+              <Link to="/"><span  className="navtitle">Home</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/register"><span className="navtitle">register</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/login"><span className="navtitle">login</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/bye"><span className="navtitle">bye</span></Link>
+            </li>
+		  		</ul>
           </div>
-          <div>
-          <Link to="/login"><b>login</b></Link>
-          </div>
-          <div>
-            <Link to="/bye"><strong><b>Bye</b></strong></Link>
-          </div>
+          <div className="space"></div>
+          </nav>
           <div>
             {
               !loading && data && data.me ? (
                 <button  onClick={async () => {
                   await logout();
                   setAccessToken("");
-                  await client!.resetStore(); // clean cache coolie
+                  await client!.resetStore(); 
                 }} >logout</button>
               ) : null
             } 
-            {/* <button  onClick={async () => {
-              await logout();
-              setAccessToken("");
-              await client!.resetStore(); // clean cache
-            }} >logout</button> */}
+            
           </div>
-          {/* <div>
-            <Link to="/hello"><strong><b>myHello</b></strong></Link>
-          </div> */}
-          { body }
+          <div className="statusdiv">
+            <button onClick={() => { messagebody.classList.toggle('active2'); }}>Show my status
+            </button>
+            <span  className="messagebody">{ body }</span>
+          </div>
+          
         </header>
-          //  </fieldset>
+          
         );
 }

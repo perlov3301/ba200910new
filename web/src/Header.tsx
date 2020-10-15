@@ -15,12 +15,11 @@ export const Header: React.FC<Props> = () => {
    // const toggleButton = document.getElementsByClassName('toggle-button')[0];
         const navbarLinks = document.getElementsByClassName('navbar-links')[0];
         const liarray = document.getElementsByClassName('navbarli');
-        const homeli = document.getElementById("homeli");
-        // element id=homeli must be  programaticaly clicked 
+        // "home" is programaticaly clicked but after login=>home there two clicked
+        // const homeli = document.getElementById("homeli");
         // if (homeli) {
         //   homeli.classList.add('bgcolor');
         // } else { console.log("homeli is null "); }
-        // liarray[0].classList.add('bgcolor');
         const messagebody = document.getElementsByClassName('messagebody')[0];
         for (let i = 0; i < liarray.length; i++) {
           liarray[i].addEventListener('click', function (e) {
@@ -39,31 +38,33 @@ export const Header: React.FC<Props> = () => {
     else if (data && data.me) { body = <div>you are logged in as: {data.me.email}</div>; } 
          else { body =  <div>not logged in</div>; }
     return (
-        <header>header page
+        <header>Header.tsx
           <nav className="navbar">
-          <div className="brand-title">Brand name</div>
-    <button onClick={() => {navbarLinks.classList.toggle('active1');}} 
-      className="toggle-button">
-			<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		</button>
+          <div className="brand-title">React&Postgres&JWT
+          </div>
+          <button onClick={() => {navbarLinks.classList.toggle('active1');}} 
+            className="toggle-button">
+		      	<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		      	<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      		<span className="bar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      	</button>
           <div className="navbar-links">
           <ul>
-				<li  className="navbarli" id="homeli">
-          <Link to="/"><span  className="navtitle">Home</span></Link>
-        </li>
-        <li className="navbarli">
-          <Link to="/register"><span className="navtitle">register</span></Link>
-        </li>
-        <li className="navbarli">
-          <Link to="/login"><span className="navtitle">login</span></Link>
-        </li>
-        <li className="navbarli">
-          <Link to="/bye"><span className="navtitle">bye</span></Link>
-        </li>
-				</ul>
+            <li  className="navbarli" id="homeli">
+              <Link to="/"><span  className="navtitle">Home</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/register"><span className="navtitle">register</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/login"><span className="navtitle">login</span></Link>
+            </li>
+            <li className="navbarli">
+              <Link to="/bye"><span className="navtitle">bye</span></Link>
+            </li>
+		  		</ul>
           </div>
+          <div className="space"></div>
           </nav>
           <div>
             {

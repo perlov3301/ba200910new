@@ -27,5 +27,8 @@ or we can internally use this owns account when they gets hacked)
 #     "@graphql-codegen/typescript-react-apollo": "1.17.8" => 2.06
 # apollo boost migration max apollo client 2.5
   https://www.apollographql.com/docs/react/v2.5/advanced/boost-migration/#advanced-migration
+  # programmitically click element:
+    <input type="checkbox" id="myid1" onmouseover="myfunction1()">
+    function myfunction1() { document.getElementById("myid1").click(); }
 
 

@@ -5,7 +5,7 @@ import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { Bye } from './pages/Bye';
 import { Hello } from './pages/Hello';
-import { Header } from './Header';
+import { Header }  from './Header';
 
 const Routes: React.FC = () => {
    return (
